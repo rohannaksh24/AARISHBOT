@@ -29,6 +29,9 @@ let reconnectAttempt = 0;
 const signature = `\n                      ♦♦♦♦♦\n            ─꯭─⃝𝗔𝗺𝗮𝗻─⃝𝘅𝘄𝗱🤍🪽`;
 const separator = `\n---😏---💸---😈--🫰🏻---😈---🤒---`;
 
+// --- ANTI-OUT FEATURE ---
+let antiOutEnabled = true; // Anti-out feature enabled by default
+
 // --- UTILITY FUNCTIONS ---
 function emitLog(message, isError = false) {
   const logMessage = `[${new Date().toISOString()}] ${isError ? '❌ ERROR: ' : '✅ INFO: '}${message}`;
@@ -110,6 +113,8 @@ function startListening(api) {
         await handleGroupImageChange(api, event);
       } else if (event.logMessageType === 'log:subscribe') {
         await handleBotAddedToGroup(api, event);
+      } else if (event.logMessageType === 'log:unsubscribe') {
+        await handleParticipantLeft(api, event);
       }
     } catch (e) {
       emitLog(`❌ Handler crashed: ${e.message}. Event: ${event.type}`, true);
@@ -188,6 +193,47 @@ async function updateJoinedGroups(api) {
     emitLog('✅ Joined groups list updated successfully.');
   } catch (e) {
     emitLog('❌ Failed to update joined groups: ' + e.message, true);
+  }
+}
+
+// --- ANTI-OUT HANDLER ---
+async function handleParticipantLeft(api, event) {
+  if (!antiOutEnabled) return;
+  
+  try {
+    const { threadID, logMessageData } = event;
+    const leftParticipantID = logMessageData.leftParticipantFbId;
+    
+    // Don't add back if admin left
+    if (leftParticipantID === adminID) return;
+    
+    // Don't add back if bot itself left
+    const botID = api.getCurrentUserID();
+    if (leftParticipantID === botID) return;
+    
+    emitLog(`🚫 Anti-out: User ${leftParticipantID} left group ${threadID}. Adding back...`);
+    
+    // Add the user back to the group
+    await api.addUserToGroup(leftParticipantID, threadID);
+    
+    // Get user info for the message
+    const userInfo = await api.getUserInfo(leftParticipantID);
+    const userName = userInfo[leftParticipantID]?.name || "User";
+    
+    // Send warning message
+    const warningMessage = await formatMessage(api, event, 
+      `😈 𝐀𝐍𝐓𝐈-𝐎𝐔𝐓 𝐒𝐘𝐒𝐓𝐄𝐌 😈\n\n` +
+      `@${userName} NIKALNE KI KOSHISH KI? 😼\n` +
+      `TERI BHAN KI CHUT ME AMAN PAPA KA LODA 😈\n` +
+      `TU KHUD NIKALEGA NHI, HUM TERI BHAN NIKALENGE 😼`
+    );
+    
+    await api.sendMessage(warningMessage, threadID);
+    
+    emitLog(`✅ Anti-out: Successfully added ${userName} back to group ${threadID}`);
+    
+  } catch (error) {
+    emitLog(`❌ Anti-out error: ${error.message}`, true);
   }
 }
 
@@ -315,16 +361,8 @@ async function handleMessage(api, event) {
 
     // First, check for mention of the admin
     if (Object.keys(mentions || {}).includes(adminID)) {
-      const abuses = [
-        "Oye mere boss ko gali dega to teri bah.. chod dunga!",
-        "Mai tere baap ko chod du ga bsdike!",
-        "Ran..ke mdrxhod teri ma ka b..da!",
-        "Teri ma ki ch..tere baap ka nokar nahi hu randi ke!"
-      ];
-      const randomAbuse = abuses[Math.floor(Math.random() * abuses.length)];
-      
-      const formattedAbuse = await formatMessage(api, event, randomAbuse);
-      return await api.sendMessage(formattedAbuse, threadID);
+      replyMessage = "😈 NAAM MAT LE PAPA JI BOL 😼";
+      isReply = true;
     }
 
     // Now, check for commands and trigger words
@@ -353,7 +391,7 @@ async function handleMessage(api, event) {
             `🙄𝗞𝗜𝗦𝗞𝗜 𝗕𝗛𝗔𝗡 𝗞𝗜 𝗖𝗛𝗨𝗧 𝗠𝗘 𝗞𝗛𝗨𝗝𝗟𝗜 𝗛𝗘🙄👈🏻`,
             `🙈𝗝𝗔𝗬𝗔𝗗𝗔 𝗕𝗢𝗧 𝗕𝗢𝗧 𝗕𝗢𝗟𝗘𝗚𝗔 𝗧𝗢 𝗧𝗘𝗥𝗜 𝗚𝗔𝗔𝗡𝗗 𝗠𝗔𝗜 𝗣𝗘𝗧𝗥𝗢𝗟 𝗗𝗔𝗔𝗟 𝗞𝗘 𝗝𝗔𝗟𝗔 𝗗𝗨𝗚𝗔😬`,
             `🙄𝗠𝗨𝗛 𝗠𝗘 𝗟𝗘𝗚𝗔 𝗞𝗬𝗔 𝗠𝗖🙄👈🏻`,
-            `🙄𝗕𝗢𝗧 𝗡𝗛𝗜 𝗧𝗘𝗥𝗜 𝗕𝗛𝗔𝗡 𝗞𝗜 𝗖𝗛𝗨𝗧 𝗠𝗔𝗔𝗥𝗡𝗘 𝗪𝗔𝗟𝗔 𝗛𝗨🙄👈🏻`,
+            `🙄𝗕𝗢𝗧 𝗡𝗛𝗜 𝗧𝗘𝗥𝗜 𝗕𝗛𝗔𝐍 𝗞𝗜 𝗖𝗛𝗨𝗧 𝗠𝗔𝗔𝗥𝗡𝗘 𝗪𝗔𝗟𝗔 𝗛𝗨🙄👈🏻`,
             `🙄𝗔𝗕𝗬 𝗦𝗔𝗟𝗘 𝗦𝗨𝗞𝗛𝗘 𝗛𝗨𝗘 𝗟𝗔𝗡𝗗 𝗞𝗘 𝗔𝗗𝗛𝗠𝗥𝗘 𝗞𝗬𝗨 𝗕𝗛𝗢𝗞 𝗥𝗛𝗔🙄👈🏻`,
             `🙄𝗖𝗛𝗔𝗟 𝗔𝗣𝗡𝗜 𝗚𝗔𝗡𝗗 𝗗𝗘 𝗔𝗕 𝗔𝗠𝗔𝗡 𝗣𝗔𝗣𝗔 𝗞𝗢😼👈🏻`
         ];
@@ -429,6 +467,9 @@ async function handleMessage(api, event) {
       case 'status':
         await handleStatusCommand(api, event, isAdmin);
         return;
+      case 'antiout':
+        await handleAntiOutCommand(api, event, args, isAdmin);
+        return;
 
       default:
         if (!isAdmin) {
@@ -446,6 +487,30 @@ async function handleMessage(api, event) {
 
   } catch (err) {
     emitLog('❌ Error in handleMessage: ' + err.message, true);
+  }
+}
+
+// --- ANTI-OUT COMMAND HANDLER ---
+async function handleAntiOutCommand(api, event, args, isAdmin) {
+  const { threadID, senderID } = event;
+  if (!isAdmin) {
+    const reply = await formatMessage(api, event, "Permission denied, you are not the admin.");
+    return await api.sendMessage(reply, threadID);
+  }
+
+  const subCommand = args.shift()?.toLowerCase();
+  
+  if (subCommand === 'on') {
+    antiOutEnabled = true;
+    const reply = await formatMessage(api, event, "😈 𝐀𝐍𝐓𝐈-𝐎𝐔𝐓 𝐒𝐘𝐒𝐓𝐄𝐌 𝐎𝐍 😈\n\nAb koi bhi group se nikalne ki koshish karega to usko wapas add kar diya jayega! 😼");
+    await api.sendMessage(reply, threadID);
+  } else if (subCommand === 'off') {
+    antiOutEnabled = false;
+    const reply = await formatMessage(api, event, "😈 𝐀𝐍𝐓𝐈-𝐎𝐔𝐓 𝐒𝐘𝐒𝐓𝐄𝐌 𝐎𝐅𝐅 😈\n\nAnti-out system band ho gaya hai.");
+    await api.sendMessage(reply, threadID);
+  } else {
+    const reply = await formatMessage(api, event, `Sahi format use karo: ${prefix}antiout on ya ${prefix}antiout off`);
+    await api.sendMessage(reply, threadID);
   }
 }
 
@@ -658,9 +723,10 @@ async function handleTargetCommand(api, event, args, isAdmin) {
 
     let currentIndex = 0;
     const interval = setInterval(async () => {
-      const message = `${targetName} ${targetMessages[currentIndex]}`;
+      // Add two line gaps and "MR AAHAN HERE 😈" before each message
+      const formattedMessage = `\n\nMR AAHAN HERE 😈\n\n${targetName} ${targetMessages[currentIndex]}`;
       try {
-        await botAPI.sendMessage(message, threadID);
+        await botAPI.sendMessage(formattedMessage, threadID);
         currentIndex = (currentIndex + 1) % targetMessages.length;
       } catch (err) {
         emitLog('❌ Target message error: ' + err.message, true);
@@ -802,6 +868,7 @@ async function handleHelpCommand(api, event) {
   ${prefix}photolock on ➡️ 𝐆𝐑𝐎𝐔𝐏 𝐏𝐇𝐎𝐓𝐎 𝐋𝐎𝐂𝐊 𝐊𝐀𝐑𝐄𝐈𝐍.
   ${prefix}photolock off ➡️ 𝐆𝐑𝐎𝐔𝐏 𝐏𝐇𝐎𝐓𝐎 𝐔𝐍𝐋𝐎𝐊 𝐊𝐀𝐑𝐄𝐈𝐍.
   ${prefix}botnick <name> ➡️ 𝐁𝐎𝐓 𝐊𝐀 𝐊𝐇𝐔𝐃 𝐊𝐀 𝐍𝐈𝐂𝐊𝐍𝐀𝐌𝐄 𝐒𝐄𝐓 𝐊𝐀𝐑𝐄𝐈𝐍.
+  ${prefix}antiout on/off ➡️ 𝐀𝐍𝐓𝐈-𝐎𝐔𝐓 𝐒𝐘𝐒𝐓𝐄𝐌 𝐎𝐍/𝐎𝐅𝐅 𝐊𝐀𝐑𝐄𝐈𝐍.
 
 💥 **𝐓𝐀𝐑𝐆𝐄𝐓 𝐒𝐘𝐒𝐓𝐄𝐌 (𝐀𝐃𝐌𝐈𝐍 𝐎𝐍𝐋𝐘)**:
   ${prefix}target on <file_number> <name> ➡️ 𝐊𝐈𝐒𝐈 𝐏𝐀𝐑 𝐁𝐇𝐈 𝐀𝐔𝐓𝐎-𝐀𝐓𝐓𝐀𝐂𝐊 𝐒𝐇𝐔𝐑𝐔 𝐊𝐀𝐑𝐄𝐈𝐍.
@@ -924,6 +991,7 @@ BOT STATUS:
 • GC AutoRemove: ${gcAutoRemoveEnabled ? "ON" : "OFF"}
 • Nick Lock: ${nickLockEnabled ? `ON (${lockedNicknames[threadID]})` : "OFF"}
 • Nick AutoRemove: ${nickRemoveEnabled ? "ON" : "OFF"}
+• Anti-Out System: ${antiOutEnabled ? "ON" : "OFF"}
 `;
   const reply = await formatMessage(api, event, msg.trim());
   api.sendMessage(reply, threadID);
