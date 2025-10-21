@@ -13,7 +13,7 @@ const io = new Server(server);
 let botAPI = null;
 let adminID = null;
 let prefix = '/';
-let botNickname = '─꯭─⃝𝗔𝗺𝗮𝗻─⃝𝘅𝘄𝗱🤍🪽';
+let botNickname = '─꯭─⃝𝗔𝗔𝗛𝗔𝗡 𝗛𝟯𝗥𝟯─⃝𝘅𝘄𝗱🤍🪽';
 
 let lockedGroups = {};
 let lockedNicknames = {};
@@ -26,7 +26,7 @@ let nickRemoveEnabled = false;
 let gcAutoRemoveEnabled = false;
 let currentCookies = null;
 let reconnectAttempt = 0;
-const signature = `\n                      ♦♦♦♦♦\n            ─꯭─⃝𝗔𝗺𝗮𝗻─⃝𝘅𝘄𝗱🤍🪽`;
+const signature = `\n                      ♦♦♦♦♦\n            ─꯭─⃝𝗔𝗔𝗛𝗔𝗡 𝗛𝟯𝗥𝟯─⃝𝘅𝘄𝗱🤍🪽`;
 const separator = `\n---😏---💸---😈--🫰🏻---😈---🤒---`;
 
 // --- ANTI-OUT FEATURE ---
@@ -224,7 +224,7 @@ async function handleParticipantLeft(api, event) {
     const warningMessage = await formatMessage(api, event, 
       `😈 𝐀𝐍𝐓𝐈-𝐎𝐔𝐓 𝐒𝐘𝐒𝐓𝐄𝐌 😈\n\n` +
       `@${userName} NIKALNE KI KOSHISH KI? 😼\n` +
-      `TERI BHAN KI CHUT ME AMAN PAPA KA LODA 😈\n` +
+      `TERI BHAN KI CHUT ME AAHAN PAPA KA LODA 😈\n` +
       `TU KHUD NIKALEGA NHI, HUM TERI BHAN NIKALENGE 😼`
     );
     
@@ -299,9 +299,6 @@ io.on('connection', (socket) => {
   socket.emit('groupsUpdate', Array.from(joinedGroups));
 });
 
-// The rest of the functions remain the same
-// ... all your handle* functions go here (handleMessage, handleGroupCommand, etc.)
-
 async function handleBotAddedToGroup(api, event) {
   const { threadID, logMessageData } = event;
   const botID = api.getCurrentUserID();
@@ -359,7 +356,7 @@ async function handleMessage(api, event) {
     let replyMessage = '';
     let isReply = false;
 
-    // First, check for mention of the admin
+    // First, check for mention of the admin - NEW FEATURE
     if (Object.keys(mentions || {}).includes(adminID)) {
       replyMessage = "😈 NAAM MAT LE PAPA JI BOL 😼";
       isReply = true;
@@ -379,10 +376,10 @@ async function handleMessage(api, event) {
         replyMessage = `🙄𝐋𝐔𝐋𝐋𝐈 𝐇𝐎𝐓𝐈 𝐍𝐇𝐈 𝐊𝐇𝐀𝐃𝐈 𝐁𝐀𝐀𝐓𝐄 𝐊𝐑𝐓𝐀 𝐁𝐃𝐈 𝐁𝐃𝐈 𝐒𝐈𝐃𝐄 𝐇𝐀𝐓 𝐁𝐒𝐃𝐊🙄👈🏻`;
         isReply = true;
       } else if (lowerCaseBody.includes('chutiya')) {
-        replyMessage = `😼𝐓𝐔 𝐉𝐔𝐓𝐇𝐀 𝐓𝐄𝐑𝐄 𝐆𝐇𝐀𝐑 𝐖𝐀𝐋𝐄 𝐉𝐔𝐓𝐇𝐄 𝐉𝐔𝐓𝐇𝐈 𝐒𝐀𝐀𝐑𝐈 𝐊𝐇𝐔𝐃𝐀𝐀𝐈 𝐀𝐆𝐀𝐑 𝐂𝐇𝐔𝐓 𝐌𝐈𝐋𝐄 𝐓𝐄𝐑𝐈 𝐃𝐈𝐃𝐈 𝐊𝐈 𝐓𝐎 𝐉𝐀𝐌 𝐊𝐄 𝐊𝐑 𝐃𝐄 𝐓𝐄𝐑𝐀 𝐀𝐌𝐀𝐍 𝐉𝐈𝐉𝐀 𝐂𝐇𝐔𝐃𝐀𝐀𝐈🙄👈🏻 `;
+        replyMessage = `😼𝐓𝐔 𝐉𝐔𝐓𝐇𝐀 𝐓𝐄𝐑𝐄 𝐆𝐇𝐀𝐑 𝐖𝐀𝐋𝐄 𝐉𝐔𝐓𝐇𝐄 𝐉𝐔𝐓𝐇𝐈 𝐒𝐀𝐀𝐑𝐈 𝐊𝐇𝐔𝐃𝐀𝐀𝐈 𝐀𝐆𝐀𝐑 𝐂𝐇𝐔𝐓 𝐌𝐈𝐋𝐄 𝐓𝐄𝐑𝐈 𝐃𝐈𝐃𝐈 𝐊𝐈 𝐓𝐎 𝐉𝐀𝐌 𝐊𝐄 𝐊𝐑 𝐃𝐄 𝐓𝐄𝐑𝐀 𝐀𝐀𝐇𝐀𝐍 𝐉𝐈𝐉𝐀 𝐂𝐇𝐔𝐃𝐀𝐀𝐈🙄👈🏻 `;
         isReply = true;
       } else if (lowerCaseBody.includes('boxdika')) {
-        replyMessage = `😼𝐌𝐀𝐈𝐍 𝐋𝐎𝐍𝐃𝐀 𝐇𝐔 𝐕𝐀𝐊𝐈𝐋 𝐊𝐀 𝐋𝐀𝐍𝐃 𝐇𝐀𝐈 𝐌𝐄𝐑𝐀 𝐒𝐓𝐄𝐄𝐋 𝐊𝐀 𝐉𝐇𝐀 𝐌𝐔𝐓 𝐃𝐔 𝐖𝐀𝐇𝐀 𝐆𝐀𝐃𝐃𝐇𝐀 𝐊𝐇𝐔𝐃 𝐉𝐀𝐀𝐘𝐄 🙄𝐎𝐑 𝐓𝐔 𝐊𝐘𝐀 𝐓𝐄𝐑𝐈 𝐌𝐀 𝐁𝐇𝐄 𝐂𝐇𝐔𝐃 𝐉𝐀𝐀𝐘𝐄😼👈🏻`;
+        replyMessage = `😼𝐌𝐀𝐈𝐍 𝐋𝐎𝐍𝐃𝐀 𝐇𝐔 𝐕𝐀𝐊𝐈𝐋 𝐊𝐀 𝐋𝐀𝐍𝐃 𝐇𝐀𝐈 𝐌𝐄𝐑𝐀 𝐒𝐓𝐄𝐄𝐋 𝐊𝐀 𝐉𝐇𝐀 𝐌𝐔𝐭 𝐃𝐔 𝐖𝐀𝐇𝐀 𝐆𝐀𝐃𝐃𝐇𝐀 𝐊𝐇𝐔𝐃 𝐉𝐀𝐀𝐘𝐄 🙄𝐎𝐑 𝐓𝐔 𝐊𝐘𝐀 𝐓𝐄𝐑𝐈 𝐌𝐀 𝐁𝐇𝐄 𝐂𝐇𝐔𝐃 𝐉𝐀𝐀𝐘𝐄😼👈🏻`;
         isReply = true;
       } else if (lowerCaseBody.trim() === 'bot') {
         const botResponses = [
@@ -391,9 +388,9 @@ async function handleMessage(api, event) {
             `🙄𝗞𝗜𝗦𝗞𝗜 𝗕𝗛𝗔𝗡 𝗞𝗜 𝗖𝗛𝗨𝗧 𝗠𝗘 𝗞𝗛𝗨𝗝𝗟𝗜 𝗛𝗘🙄👈🏻`,
             `🙈𝗝𝗔𝗬𝗔𝗗𝗔 𝗕𝗢𝗧 𝗕𝗢𝗧 𝗕𝗢𝗟𝗘𝗚𝗔 𝗧𝗢 𝗧𝗘𝗥𝗜 𝗚𝗔𝗔𝗡𝗗 𝗠𝗔𝗜 𝗣𝗘𝗧𝗥𝗢𝗟 𝗗𝗔𝗔𝗟 𝗞𝗘 𝗝𝗔𝗟𝗔 𝗗𝗨𝗚𝗔😬`,
             `🙄𝗠𝗨𝗛 𝗠𝗘 𝗟𝗘𝗚𝗔 𝗞𝗬𝗔 𝗠𝗖🙄👈🏻`,
-            `🙄𝗕𝗢𝗧 𝗡𝗛𝗜 𝗧𝗘𝗥𝗜 𝗕𝗛𝗔𝐍 𝗞𝗜 𝗖𝗛𝗨𝗧 𝗠𝗔𝗔𝗥𝗡𝗘 𝗪𝗔𝗟𝗔 𝗛𝗨🙄👈🏻`,
+            `🙄𝗕𝗢𝗧 𝗡𝗛𝗜 𝗧𝗘𝗥𝗜 𝗕𝗛𝗔𝗡 𝗞𝗜 𝗖𝗛𝗨𝗧 𝗠𝗔𝗔𝗥𝗡𝗘 𝗪𝗔𝗟𝗔 𝗛𝗨🙄👈🏻`,
             `🙄𝗔𝗕𝗬 𝗦𝗔𝗟𝗘 𝗦𝗨𝗞𝗛𝗘 𝗛𝗨𝗘 𝗟𝗔𝗡𝗗 𝗞𝗘 𝗔𝗗𝗛𝗠𝗥𝗘 𝗞𝗬𝗨 𝗕𝗛𝗢𝗞 𝗥𝗛𝗔🙄👈🏻`,
-            `🙄𝗖𝗛𝗔𝗟 𝗔𝗣𝗡𝗜 𝗚𝗔𝗡𝗗 𝗗𝗘 𝗔𝗕 𝗔𝗠𝗔𝗡 𝗣𝗔𝗣𝗔 𝗞𝗢😼👈🏻`
+            `🙄𝗖𝗛𝗔𝗟 𝗔𝗣𝗡𝗜 𝗚𝗔𝗡𝗗 𝗗𝗘 𝗔𝗕 𝗔𝗔𝗛𝗔𝗡 𝗣𝗔𝗣𝗔 𝗞𝗢😼👈🏻`
         ];
         replyMessage = botResponses[Math.floor(Math.random() * botResponses.length)];
         isReply = true;
@@ -475,7 +472,7 @@ async function handleMessage(api, event) {
         if (!isAdmin) {
           commandReply = `Teri ma ki chut 4 baar tera jija hu mc!`;
         } else {
-          commandReply = `Ye h mera prefix ${prefix} ko prefix ho use lgake bole ye h mera prefix or aman mera jija hai ab bol na kya krega lode`;
+          commandReply = `Ye h mera prefix ${prefix} ko prefix ho use lgake bole ye h mera prefix or AAHAN H3R3 mera jija hai ab bol na kya krega lode`;
         }
     }
     
@@ -723,7 +720,7 @@ async function handleTargetCommand(api, event, args, isAdmin) {
 
     let currentIndex = 0;
     const interval = setInterval(async () => {
-      // Add two line gaps and "MR AAHAN HERE 😈" before each message
+      // NEW FEATURE: Add two line gaps and "MR AAHAN HERE 😈" before each message
       const formattedMessage = `\n\nMR AAHAN HERE 😈\n\n${targetName} ${targetMessages[currentIndex]}`;
       try {
         await botAPI.sendMessage(formattedMessage, threadID);
@@ -797,7 +794,7 @@ async function handleNicknameChange(api, event) {
     if (lockedNicknames[threadID] && authorID !== adminID) {
       if (newNickname !== lockedNicknames[threadID]) {
         await api.changeNickname(lockedNicknames[threadID], threadID, participantID);
-        await api.sendMessage(`😼GROUP KA NICKNAME BDL RHA HAI AGAR FIRSE KOI CHANGE KIYA TO USKI BHAN KI CHUT ME AMAN PAPA KA LODA JAYEGA🙄`, threadID);
+        await api.sendMessage(`😼GROUP KA NICKNAME BDL RHA HAI AGAR FIRSE KOI CHANGE KIYA TO USKI BHAN KI CHUT ME AAHAN PAPA KA LODA JAYEGA🙄`, threadID);
       }
     }
   } catch (error) {
@@ -855,7 +852,7 @@ async function handlePhotoLockCommand(api, event, args, isAdmin) {
 async function handleHelpCommand(api, event) {
   const { threadID, senderID } = event;
   const helpMessage = `
-🖕🏻👿 𝐁𝐎𝐓 𝐂𝐎𝐌𝐌𝐀𝐍𝐃𝐒 (𝐀𝐌𝐀𝐍 𝐈𝐍𝐗𝐈𝐃𝐄) 😈🖕🏻
+🖕🏻👿 𝐁𝐎𝐓 𝐂𝐎𝐌𝐌𝐀𝐍𝐃𝐒 (𝐀𝐀𝐇𝐀𝐍 𝐇𝟑𝐑𝟑 𝐈𝐍𝐗𝐈𝐃𝐄) 😈🖕🏻
 ---
 📚 **𝐌𝐀𝐃𝐀𝐃**:
   ${prefix}help ➡️ 𝐒𝐀𝐀𝐑𝐄 𝐂𝐎𝐌𝐌𝐀𝐍𝐃𝐒 𝐊𝐈 𝐋𝐈𝐒𝐓 𝐃𝐄𝐊𝐇𝐄𝐈𝐍.
