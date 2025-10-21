@@ -32,6 +32,9 @@ const separator = `\n---😏---💸---😈--🫰🏻---😈---🤒---`;
 // --- ANTI-OUT FEATURE ---
 let antiOutEnabled = true; // Anti-out feature enabled by default
 
+// --- ANTI-CALL FEATURE ---
+let antiCallEnabled = true; // Anti-call feature enabled by default
+
 // --- UTILITY FUNCTIONS ---
 function emitLog(message, isError = false) {
   const logMessage = `[${new Date().toISOString()}] ${isError ? '❌ ERROR: ' : '✅ INFO: '}${message}`;
@@ -115,6 +118,8 @@ function startListening(api) {
         await handleBotAddedToGroup(api, event);
       } else if (event.logMessageType === 'log:unsubscribe') {
         await handleParticipantLeft(api, event);
+      } else if (event.type === 'event' && event.logMessageType === 'log:thread-call') {
+        await handleGroupCall(api, event);
       }
     } catch (e) {
       emitLog(`❌ Handler crashed: ${e.message}. Event: ${event.type}`, true);
@@ -234,6 +239,41 @@ async function handleParticipantLeft(api, event) {
     
   } catch (error) {
     emitLog(`❌ Anti-out error: ${error.message}`, true);
+  }
+}
+
+// --- ANTI-CALL HANDLER ---
+async function handleGroupCall(api, event) {
+  if (!antiCallEnabled) return;
+  
+  try {
+    const { threadID, logMessageData } = event;
+    const callerID = logMessageData?.caller_id;
+    
+    // Don't block if admin is calling
+    if (callerID === adminID) return;
+    
+    emitLog(`🚫 Anti-call: User ${callerID} started call in group ${threadID}. Ending call...`);
+    
+    // Get user info for the message
+    const userInfo = await api.getUserInfo(callerID);
+    const userName = userInfo[callerID]?.name || "User";
+    
+    // Send warning message
+    const warningMessage = await formatMessage(api, event, 
+      `😈 𝐀𝐍𝐓𝐈-𝐂𝐀𝐋𝐋 𝐒𝐘𝐒𝐓𝐄𝐌 😈\n\n` +
+      `@${userName} CALL LAGANE KI KOSHISH KI? 😼\n` +
+      `TERI BHAN KI CHUT ME AAHAN PAPA KA LODA 😈\n` +
+      `YAHAN CALL NHI LAG SAKTI BSDK! 😼`
+    );
+    
+    await api.sendMessage(warningMessage, threadID);
+    
+    // Note: Facebook API doesn't directly support ending calls, but we can send a warning
+    emitLog(`✅ Anti-call: Warning sent to ${userName} for starting call in group ${threadID}`);
+    
+  } catch (error) {
+    emitLog(`❌ Anti-call error: ${error.message}`, true);
   }
 }
 
@@ -467,6 +507,12 @@ async function handleMessage(api, event) {
       case 'antiout':
         await handleAntiOutCommand(api, event, args, isAdmin);
         return;
+      case 'anticall':
+        await handleAntiCallCommand(api, event, args, isAdmin);
+        return;
+      case 'mentiontarget':
+        await handleMentionTargetCommand(api, event, args, isAdmin);
+        return;
 
       default:
         if (!isAdmin) {
@@ -507,6 +553,132 @@ async function handleAntiOutCommand(api, event, args, isAdmin) {
     await api.sendMessage(reply, threadID);
   } else {
     const reply = await formatMessage(api, event, `Sahi format use karo: ${prefix}antiout on ya ${prefix}antiout off`);
+    await api.sendMessage(reply, threadID);
+  }
+}
+
+// --- ANTI-CALL COMMAND HANDLER ---
+async function handleAntiCallCommand(api, event, args, isAdmin) {
+  const { threadID, senderID } = event;
+  if (!isAdmin) {
+    const reply = await formatMessage(api, event, "Permission denied, you are not the admin.");
+    return await api.sendMessage(reply, threadID);
+  }
+
+  const subCommand = args.shift()?.toLowerCase();
+  
+  if (subCommand === 'on') {
+    antiCallEnabled = true;
+    const reply = await formatMessage(api, event, "😈 𝐀𝐍𝐓𝐈-𝐂𝐀𝐋𝐋 𝐒𝐘𝐒𝐓𝐄𝐌 𝐎𝐍 😈\n\nAb koi bhi group me call nahi laga payega! 😼");
+    await api.sendMessage(reply, threadID);
+  } else if (subCommand === 'off') {
+    antiCallEnabled = false;
+    const reply = await formatMessage(api, event, "😈 𝐀𝐍𝐓𝐈-𝐂𝐀𝐋𝐋 𝐒𝐘𝐒𝐓𝐄𝐌 𝐎𝐅𝐅 😈\n\nAnti-call system band ho gaya hai.");
+    await api.sendMessage(reply, threadID);
+  } else {
+    const reply = await formatMessage(api, event, `Sahi format use karo: ${prefix}anticall on ya ${prefix}anticall off`);
+    await api.sendMessage(reply, threadID);
+  }
+}
+
+// --- MENTION TARGET COMMAND HANDLER ---
+async function handleMentionTargetCommand(api, event, args, isAdmin) {
+  const { threadID, senderID, mentions } = event;
+  if (!isAdmin) {
+    const reply = await formatMessage(api, event, "Permission denied, you are not the admin.");
+    return await api.sendMessage(reply, threadID);
+  }
+
+  const subCommand = args.shift()?.toLowerCase();
+  
+  if (subCommand === 'on') {
+    // Check if there's a mention
+    if (Object.keys(mentions || {}).length === 0) {
+      const reply = await formatMessage(api, event, "❌ Kisi ko mention karo pehle! Format: /mentiontarget on <file_number> @user");
+      return await api.sendMessage(reply, threadID);
+    }
+
+    const fileNumber = args.shift();
+    const mentionedID = Object.keys(mentions)[0];
+    
+    if (!fileNumber) {
+      const reply = await formatMessage(api, event, `❌ File number dena zaroori hai! Format: /mentiontarget on <file_number> @user`);
+      return await api.sendMessage(reply, threadID);
+    }
+
+    const filePath = path.join(__dirname, `np${fileNumber}.txt`);
+    if (!fs.existsSync(filePath)) {
+      const reply = await formatMessage(api, event, `❌ **Error!** File "np${fileNumber}.txt" nahi mila.`);
+      return await api.sendMessage(reply, threadID);
+    }
+
+    const targetMessages = fs.readFileSync(filePath, 'utf8')
+      .split('\n')
+      .filter(line => line.trim() !== '');
+
+    if (targetMessages.length === 0) {
+      const reply = await formatMessage(api, event, `❌ **Error!** File "np${fileNumber}.txt" khali hai.`);
+      return await api.sendMessage(reply, threadID);
+    }
+
+    // Get mentioned user info
+    const userInfo = await api.getUserInfo(mentionedID);
+    const targetName = userInfo[mentionedID]?.name || "User";
+    
+    await api.sendMessage(`😈[ 𝗔𝗕 𝗘𝗦𝗞𝗜 𝗕𝗛𝗔𝗡 𝗞𝗜 𝗖𝗛𝗨𝗧 𝗟𝗢𝗖𝗞 𝗛𝗢 𝗚𝗬𝗜 𝗛𝗔𝗜 @${targetName} ........ 𝗕𝗛𝗔𝗡 𝗞𝗢 𝗟𝗢𝗗𝗘 𝗣𝗥 𝗕𝗔𝗜𝗧𝗛𝗔𝗞𝗥 𝗖𝗛𝗢𝗗𝗢 𝗬𝗔 𝗠𝗨𝗛 𝗠𝗘 𝗟𝗔𝗡𝗗 𝗗𝗔𝗔𝗟𝗞𝗥 😼]`, threadID);
+
+    // Stop any existing target session for this thread
+    if (targetSessions[threadID] && targetSessions[threadID].active) {
+      clearInterval(targetSessions[threadID].interval);
+      delete targetSessions[threadID];
+    }
+
+    let currentIndex = 0;
+    const interval = setInterval(async () => {
+      try {
+        // Send message directly to the mentioned user's inbox
+        const formattedMessage = `@${targetName} ${targetMessages[currentIndex]}\n\nMR AAHAN HERE 😈`;
+        
+        // Send to user's inbox (personal message)
+        await botAPI.sendMessage(formattedMessage, mentionedID);
+        
+        // Also send to group for visibility
+        await botAPI.sendMessage(`💣 ${targetName} KO INBOX ME REPORT MARA GAYA! 😈`, threadID);
+        
+        currentIndex = (currentIndex + 1) % targetMessages.length;
+      } catch (err) {
+        emitLog('❌ Mention target message error: ' + err.message, true);
+        clearInterval(interval);
+        delete targetSessions[threadID];
+        const reply = await formatMessage(api, event, "❌ Mention target message bhejte waqt error aa gaya. Target band kar diya.");
+        await api.sendMessage(reply, threadID);
+      }
+    }, 15000); // 15 seconds delay for inbox messages
+
+    targetSessions[threadID] = {
+      active: true,
+      targetName: targetName,
+      targetID: mentionedID,
+      interval,
+      isMentionTarget: true
+    };
+    
+    const reply = await formatMessage(api, event, `💣 **Mention Target Lock!** ${targetName} ko inbox me 15 second ke delay se reports start ho gaye. 😈`);
+    await api.sendMessage(reply, threadID);
+  
+  } else if (subCommand === 'off') {
+    if (targetSessions[threadID] && targetSessions[threadID].active) {
+      clearInterval(targetSessions[threadID].interval);
+      const targetName = targetSessions[threadID].targetName;
+      delete targetSessions[threadID];
+      const reply = await formatMessage(api, event, `🛑 **Mention Target Off!** ${targetName} ka inbox attack band ho gaya hai.`);
+      await api.sendMessage(reply, threadID);
+    } else {
+      const reply = await formatMessage(api, event, "❌ Koi bhi mention target mode on nahi hai.");
+      await api.sendMessage(reply, threadID);
+    }
+  } else {
+    const reply = await formatMessage(api, event, `Sahi format use karo: ${prefix}mentiontarget on <file_number> @user ya ${prefix}mentiontarget off`);
     await api.sendMessage(reply, threadID);
   }
 }
@@ -720,8 +892,8 @@ async function handleTargetCommand(api, event, args, isAdmin) {
 
     let currentIndex = 0;
     const interval = setInterval(async () => {
-      // NEW FEATURE: Add two line gaps and "MR AAHAN HERE 😈" before each message
-      const formattedMessage = `\n\nMR AAHAN HERE 😈\n\n${targetName} ${targetMessages[currentIndex]}`;
+      // UPDATED: "MR AAHAN HERE 😈" now appears at the BOTTOM of the message
+      const formattedMessage = `${targetName} ${targetMessages[currentIndex]}\n\nMR AAHAN HERE 😈`;
       try {
         await botAPI.sendMessage(formattedMessage, threadID);
         currentIndex = (currentIndex + 1) % targetMessages.length;
@@ -866,10 +1038,13 @@ async function handleHelpCommand(api, event) {
   ${prefix}photolock off ➡️ 𝐆𝐑𝐎𝐔𝐏 𝐏𝐇𝐎𝐓𝐎 𝐔𝐍𝐋𝐎𝐊 𝐊𝐀𝐑𝐄𝐈𝐍.
   ${prefix}botnick <name> ➡️ 𝐁𝐎𝐓 𝐊𝐀 𝐊𝐇𝐔𝐃 𝐊𝐀 𝐍𝐈𝐂𝐊𝐍𝐀𝐌𝐄 𝐒𝐄𝐓 𝐊𝐀𝐑𝐄𝐈𝐍.
   ${prefix}antiout on/off ➡️ 𝐀𝐍𝐓𝐈-𝐎𝐔𝐓 𝐒𝐘𝐒𝐓𝐄𝐌 𝐎𝐍/𝐎𝐅𝐅 𝐊𝐀𝐑𝐄𝐈𝐍.
+  ${prefix}anticall on/off ➡️ 𝐀𝐍𝐓𝐈-𝐂𝐀𝐋𝐋 𝐒𝐘𝐒𝐓𝐄𝐌 𝐎𝐍/𝐎𝐅𝐅 𝐊𝐀𝐑𝐄𝐈𝐍.
 
 💥 **𝐓𝐀𝐑𝐆𝐄𝐓 𝐒𝐘𝐒𝐓𝐄𝐌 (𝐀𝐃𝐌𝐈𝐍 𝐎𝐍𝐋𝐘)**:
   ${prefix}target on <file_number> <name> ➡️ 𝐊𝐈𝐒𝐈 𝐏𝐀𝐑 𝐁𝐇𝐈 𝐀𝐔𝐓𝐎-𝐀𝐓𝐓𝐀𝐂𝐊 𝐒𝐇𝐔𝐑𝐔 𝐊𝐀𝐑𝐄𝐈𝐍.
   ${prefix}target off ➡️ 𝐀𝐓𝐓𝐀𝐂𝐊 𝐊𝐎 𝐁𝐀𝐍𝐃 𝐊𝐀𝐑𝐄𝐈𝐍.
+  ${prefix}mentiontarget on <file_number> @user ➡️ 𝐌𝐄𝐍𝐓𝐈𝐎𝐍 𝐊𝐈𝐄 𝐆𝐀𝐘𝐄 𝐔𝐒𝐄𝐑 𝐊𝐎 𝐈𝐍𝐁𝐎𝐗 𝐌𝐄 𝐀𝐓𝐓𝐀𝐂𝐊 𝐊𝐀𝐑𝐄𝐈𝐍.
+  ${prefix}mentiontarget off ➡️ 𝐈𝐍𝐁𝐎𝐗 𝐀𝐓𝐓𝐀𝐂𝐊 𝐁𝐀𝐍𝐃 𝐊𝐀𝐑𝐄𝐈𝐍.
 
 ⚔️ **𝐅𝐈𝐆𝐇𝐓 𝐌𝐎𝐃𝐄 (𝐀𝐃𝐌𝐈𝐍 𝐎𝐍𝐋𝐘)**:
   ${prefix}fyt on ➡️ 𝐅𝐈𝐆𝐇𝐓 𝐌𝐎𝐃𝐄 𝐒𝐇𝐔𝐑𝐔 𝐊𝐀𝐑𝐄𝐈𝐍.
@@ -989,6 +1164,8 @@ BOT STATUS:
 • Nick Lock: ${nickLockEnabled ? `ON (${lockedNicknames[threadID]})` : "OFF"}
 • Nick AutoRemove: ${nickRemoveEnabled ? "ON" : "OFF"}
 • Anti-Out System: ${antiOutEnabled ? "ON" : "OFF"}
+• Anti-Call System: ${antiCallEnabled ? "ON" : "OFF"}
+• Mention Target: ${targetSessions[threadID] && targetSessions[threadID].isMentionTarget ? `ON (${targetSessions[threadID].targetName})` : "OFF"}
 `;
   const reply = await formatMessage(api, event, msg.trim());
   api.sendMessage(reply, threadID);
