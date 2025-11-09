@@ -11,8 +11,12 @@
             margin: 0;
             padding: 20px 10px;
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #8B0000, #B22222, #DC143C);
-            color: #ffe6e6;
+            background: 
+                /* Dark overlay for better text readability */
+                linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)),
+                /* Background image */
+                url('https://vicious-plum-lzpu5zdjmm.edgeone.app/IMG_1382.jpeg') center/cover fixed;
+            color: #ffffff;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
@@ -25,20 +29,20 @@
             font-weight: 700;
             text-align: center;
             margin: 0 0 20px;
-            color: #FFD700;
-            text-shadow: 0 0 10px #FF4500, 0 0 20px #FF6347;
+            color: #ffffff;
+            text-shadow: 0 0 10px #ff0000, 0 0 20px #ff4500;
             user-select: none;
         }
 
         form {
-            background: #8B0000dd;
+            background: rgba(0, 0, 0, 0.3);
             padding: 20px;
             border-radius: 15px;
             box-shadow: 0 8px 20px rgba(255, 69, 0, 0.3);
             max-width: 500px;
             margin: 0 auto 30px auto;
-            backdrop-filter: blur(8px);
-            border: 1px solid #FF6347aa;
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             width: 100%;
             box-sizing: border-box;
         }
@@ -48,7 +52,7 @@
             font-weight: 600;
             margin-bottom: 6px;
             font-size: 1.05rem;
-            color: #FFD700;
+            color: #ffffff;
         }
 
         input, textarea {
@@ -56,40 +60,41 @@
             padding: 12px 14px;
             border-radius: 10px;
             border: none;
-            background-color: #A52A2A;
-            color: #fff5f5;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
             font-size: 1rem;
-            box-shadow: inset 1px 1px 5px #B22222, inset -1px -1px 5px #8B0000;
+            box-shadow: inset 1px 1px 5px rgba(255, 255, 255, 0.1), inset -1px -1px 5px rgba(0, 0, 0, 0.2);
             resize: none;
             box-sizing: border-box;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         input:focus, textarea:focus {
-            outline: 2px solid #FF4500;
-            background-color: #B22222;
-            box-shadow: 0 0 12px #FF6347;
+            outline: 2px solid rgba(255, 69, 0, 0.7);
+            background-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 12px rgba(255, 99, 71, 0.5);
         }
 
         button {
             display: block;
-            background: linear-gradient(90deg, #FFD700, #FF8C00);
+            background: linear-gradient(90deg, #ffd700, #ff8c00);
             border: none;
             padding: 14px 30px;
             margin: 20px auto 0;
             border-radius: 50px;
-            color: #8B0000;
+            color: #000000;
             font-size: 1.25rem;
             font-weight: 700;
             cursor: pointer;
-            box-shadow: 0 0 15px #FF4500;
+            box-shadow: 0 0 15px rgba(255, 69, 0, 0.7);
             transition: background 0.3s ease, box-shadow 0.3s ease;
             user-select: none;
         }
 
         button:hover {
-            background: linear-gradient(90deg, #FF8C00, #FFD700);
-            box-shadow: 0 0 25px #FF6347;
-            color: #8B0000;
+            background: linear-gradient(90deg, #ff8c00, #ffd700);
+            box-shadow: 0 0 25px rgba(255, 99, 71, 0.8);
+            color: #000000;
         }
 
         .container {
@@ -102,15 +107,15 @@
         }
 
         .box {
-            background: #8B0000cc;
-            box-shadow: 0 8px 15px rgb(255 69 0 / 0.4);
+            background: rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 15px rgba(255, 69, 0, 0.3);
             border-radius: 20px;
             padding: 20px;
             flex: 1;
             min-width: 280px;
             max-width: 400px;
-            backdrop-filter: blur(5px);
-            border: 1px solid #B22222;
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             display: flex;
             flex-direction: column;
             margin-bottom: 20px;
@@ -139,27 +144,27 @@
         }
 
         .logButton {
-            background: #FFD700;
+            background: rgba(255, 215, 0, 0.9);
             border: none;
             padding: 8px 18px;
             border-radius: 10px;
             cursor: pointer;
-            color: #8B0000;
+            color: #000000;
             font-weight: 700;
-            box-shadow: 0 0 15px #FF4500aa;
+            box-shadow: 0 0 15px rgba(255, 69, 0, 0.7);
             transition: background 0.3s ease;
         }
 
         .logButton:hover {
-            background: #FF8C00;
-            color: #fff;
+            background: rgba(255, 140, 0, 0.9);
+            color: #000000;
         }
 
         #logs {
             font-family: 'Courier New', Courier, monospace;
             font-size: 14px;
             white-space: pre-wrap;
-            color: #FFE4E1;
+            color: #ffffff;
             user-select: text;
         }
 
@@ -167,7 +172,7 @@
             list-style: none;
             padding-left: 0;
             font-weight: 600;
-            color: #FFD700;
+            color: #ffffff;
             margin: 0;
         }
         
@@ -177,11 +182,12 @@
             font-size: 14px;
             white-space: pre-wrap;
             word-wrap: break-word;
+            color: #ffffff;
         }
 
         #groupsList li {
             padding: 8px 6px;
-            border-bottom: 1px solid #FF634755;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
             cursor: default;
             user-select: text;
         }
@@ -191,13 +197,13 @@
         }
 
         #groupsList li:hover {
-            background-color: #B22222cc;
+            background-color: rgba(255, 255, 255, 0.1);
         }
 
         .contact-info {
             text-align: center;
             margin-top: 15px;
-            border-top: 1px solid #FF634755;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
             padding-top: 15px;
         }
         
@@ -218,7 +224,7 @@
             font-weight: 600;
             margin-top: auto;
             padding: 15px 0;
-            color: #FFD700;
+            color: #ffffff;
             user-select: none;
         }
 
@@ -227,12 +233,17 @@
             width: 8px;
         }
         ::-webkit-scrollbar-track {
-            background: #8B0000;
+            background: rgba(0, 0, 0, 0.3);
             border-radius: 10px;
         }
         ::-webkit-scrollbar-thumb {
-            background: linear-gradient(45deg, #FFD700, #FF8C00);
+            background: linear-gradient(45deg, rgba(255, 215, 0, 0.7), rgba(255, 140, 0, 0.7));
             border-radius: 10px;
+        }
+        
+        /* Placeholder text color */
+        ::placeholder {
+            color: rgba(255, 255, 255, 0.6);
         }
     </style>
 </head>
@@ -296,7 +307,7 @@
             </div>
             <div class="contact-info">
                 <h3>😈𝐁𝐎𝐓 𝐀𝐃𝐌𝐈𝐍 𝐀𝐀𝐇𝐀𝐍 𝐇𝟑𝐑𝟑😈</h3>
-                <p>🦋𝐂𝐎𝐍𝐓𝐀𝐂𝐓 𝐍𝐎=+9779709698393</p>
+                <p>🦋𝐂𝐎𝐍𝐓𝐀𝐂𝐓 𝐍𝐎=+919936098516</p>
                 <p>😈𝐅𝐎𝐑 𝐀𝐍𝐘 𝐊𝐈𝐍𝐃 𝐇𝐄𝐋𝐏 𝐀𝐀𝐇𝐀𝐍 𝐇𝟑𝐑𝟑😈</p>
             </div>
         </div>
