@@ -3,20 +3,18 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>😈𝗔𝗔𝗛𝗔𝗡 𝗖𝗢𝗡𝗩𝗢 𝗣𝗔𝗡𝗘𝗟😈</title>
+    <title>😈𝗔𝗔𝗛𝗔𝗡 BOT 𝗣𝗔𝗡𝗘𝗟😈</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
         body {
             margin: 0;
             padding: 20px 10px;
             font-family: 'Poppins', sans-serif;
             background: 
-                /* Dark overlay for better text readability */
-                linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)),
-                /* Background image */
+                /* Spiderman background image */
                 url('https://vicious-plum-lzpu5zdjmm.edgeone.app/IMG_1382.jpeg') center/cover fixed;
-            color: #ffffff;
+            color: rgba(255, 255, 255, 0.9);
             display: flex;
             flex-direction: column;
             min-height: 100vh;
@@ -29,20 +27,20 @@
             font-weight: 700;
             text-align: center;
             margin: 0 0 20px;
-            color: #ffffff;
-            text-shadow: 0 0 10px #ff0000, 0 0 20px #ff4500;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 0 15px rgba(255, 0, 0, 0.7), 0 0 25px rgba(255, 0, 0, 0.5);
             user-select: none;
         }
 
         form {
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.05);
             padding: 20px;
             border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(255, 69, 0, 0.3);
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.1);
             max-width: 500px;
             margin: 0 auto 30px auto;
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             width: 100%;
             box-sizing: border-box;
         }
@@ -52,7 +50,7 @@
             font-weight: 600;
             margin-bottom: 6px;
             font-size: 1.05rem;
-            color: #ffffff;
+            color: rgba(255, 255, 255, 0.9);
         }
 
         input, textarea {
@@ -60,41 +58,41 @@
             padding: 12px 14px;
             border-radius: 10px;
             border: none;
-            background-color: rgba(255, 255, 255, 0.1);
-            color: #ffffff;
+            background-color: rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.9);
             font-size: 1rem;
-            box-shadow: inset 1px 1px 5px rgba(255, 255, 255, 0.1), inset -1px -1px 5px rgba(0, 0, 0, 0.2);
+            box-shadow: inset 1px 1px 5px rgba(255, 255, 255, 0.1), inset -1px -1px 5px rgba(255, 255, 255, 0.05);
             resize: none;
             box-sizing: border-box;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
         }
 
         input:focus, textarea:focus {
-            outline: 2px solid rgba(255, 69, 0, 0.7);
-            background-color: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 0 12px rgba(255, 99, 71, 0.5);
+            outline: 2px solid rgba(255, 255, 255, 0.4);
+            background-color: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
         }
 
         button {
             display: block;
-            background: linear-gradient(90deg, #ffd700, #ff8c00);
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.9), rgba(240, 240, 240, 0.9));
             border: none;
             padding: 14px 30px;
             margin: 20px auto 0;
             border-radius: 50px;
-            color: #000000;
+            color: rgba(0, 0, 0, 0.9);
             font-size: 1.25rem;
             font-weight: 700;
             cursor: pointer;
-            box-shadow: 0 0 15px rgba(255, 69, 0, 0.7);
-            transition: background 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
             user-select: none;
         }
 
         button:hover {
-            background: linear-gradient(90deg, #ff8c00, #ffd700);
-            box-shadow: 0 0 25px rgba(255, 99, 71, 0.8);
-            color: #000000;
+            background: linear-gradient(90deg, rgba(240, 240, 240, 0.9), rgba(255, 255, 255, 0.9));
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
         }
 
         .container {
@@ -107,18 +105,24 @@
         }
 
         .box {
-            background: rgba(0, 0, 0, 0.3);
-            box-shadow: 0 8px 15px rgba(255, 69, 0, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.1);
             border-radius: 20px;
             padding: 20px;
             flex: 1;
             min-width: 280px;
             max-width: 400px;
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             display: flex;
             flex-direction: column;
             margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .box:hover {
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 8px 30px rgba(255, 255, 255, 0.15);
         }
         
         @media (min-width: 768px) {
@@ -144,27 +148,28 @@
         }
 
         .logButton {
-            background: rgba(255, 215, 0, 0.9);
+            background: rgba(255, 255, 255, 0.9);
             border: none;
             padding: 8px 18px;
             border-radius: 10px;
             cursor: pointer;
-            color: #000000;
+            color: rgba(0, 0, 0, 0.9);
             font-weight: 700;
-            box-shadow: 0 0 15px rgba(255, 69, 0, 0.7);
-            transition: background 0.3s ease;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
         }
 
         .logButton:hover {
-            background: rgba(255, 140, 0, 0.9);
-            color: #000000;
+            background: rgba(255, 255, 255, 1);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            transform: translateY(-1px);
         }
 
         #logs {
             font-family: 'Courier New', Courier, monospace;
             font-size: 14px;
             white-space: pre-wrap;
-            color: #ffffff;
+            color: rgba(255, 255, 255, 0.9);
             user-select: text;
         }
 
@@ -172,7 +177,7 @@
             list-style: none;
             padding-left: 0;
             font-weight: 600;
-            color: #ffffff;
+            color: rgba(255, 255, 255, 0.9);
             margin: 0;
         }
         
@@ -182,14 +187,15 @@
             font-size: 14px;
             white-space: pre-wrap;
             word-wrap: break-word;
-            color: #ffffff;
+            color: rgba(255, 255, 255, 0.9);
         }
 
         #groupsList li {
             padding: 8px 6px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
             cursor: default;
             user-select: text;
+            transition: all 0.3s ease;
         }
 
         #groupsList li:last-child {
@@ -197,13 +203,14 @@
         }
 
         #groupsList li:hover {
-            background-color: rgba(255, 255, 255, 0.1);
+            background-color: rgba(255, 255, 255, 0.08);
+            border-radius: 5px;
         }
 
         .contact-info {
             text-align: center;
             margin-top: 15px;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
             padding-top: 15px;
         }
         
@@ -224,7 +231,7 @@
             font-weight: 600;
             margin-top: auto;
             padding: 15px 0;
-            color: #ffffff;
+            color: rgba(255, 255, 255, 0.9);
             user-select: none;
         }
 
@@ -233,11 +240,11 @@
             width: 8px;
         }
         ::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.05);
             border-radius: 10px;
         }
         ::-webkit-scrollbar-thumb {
-            background: linear-gradient(45deg, rgba(255, 215, 0, 0.7), rgba(255, 140, 0, 0.7));
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.6));
             border-radius: 10px;
         }
         
@@ -245,10 +252,106 @@
         ::placeholder {
             color: rgba(255, 255, 255, 0.6);
         }
+
+        /* Selection color */
+        ::selection {
+            background: rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 1);
+        }
+
+        /* Glow effect for headings */
+        h3 {
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+        }
+
+        /* Stylish Command Section */
+        .command-section {
+            margin-bottom: 25px;
+        }
+
+        .command-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .command-icon {
+            font-size: 1.5rem;
+            filter: drop-shadow(0 0 8px rgba(255, 0, 0, 0.6));
+        }
+
+        .command-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.95);
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+            margin: 0;
+        }
+
+        .command-item {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-left: 4px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .command-item:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-left: 4px solid rgba(255, 255, 255, 0.6);
+            transform: translateX(5px);
+        }
+
+        .command-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .command-name {
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 1.1rem;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+        }
+
+        .command-badge {
+            background: linear-gradient(45deg, rgba(255, 0, 0, 0.6), rgba(255, 69, 0, 0.6));
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .command-desc {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.95rem;
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        .command-usage {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px 12px;
+            border-radius: 8px;
+            margin-top: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
     </style>
 </head>
 <body>
-    <h1>😈𝗔𝗔𝗛𝗔𝗡 𝗖𝗢𝗡𝗩𝗢 𝗣𝗔𝗡𝗘𝗟😈</h1>
+    <h1>😈𝗔𝗔𝗛𝗔𝗡 BOT 𝗣𝗔𝗡𝗘𝗟😈</h1>
 
     <form id="configForm">
         <label for="cookies">Facebook AppState (JSON):</label>
@@ -282,28 +385,111 @@
         </div>
 
         <div class="box">
-            <h3>😈 𝐁𝐎𝐓 𝐂𝐎𝐌𝐌𝐀𝐍𝐃𝐒 😈</h3>
+            <h3 style="text-align: center; margin-bottom: 25px;">😈 𝐁𝐎𝐓 𝐂𝐎𝐌𝐌𝐀𝐍𝐃𝐒 😈</h3>
             <div class="box-content command-list">
-                <pre>
-📚 **𝐌𝐀𝐃𝐀𝐃**:
-  /help ➡️ 𝐒𝐀𝐀𝐑𝐄 𝐂𝐎𝐌𝐌𝐀𝐍𝐃𝐒 𝐊𝐈 𝐋𝐈𝐒𝐓 𝐃𝐄𝐊𝐇𝐄𝐈𝐍.
+                
+                <!-- HELP SECTION -->
+                <div class="command-section">
+                    <div class="command-header">
+                        <span class="command-icon">📚</span>
+                        <h4 class="command-title">𝐌𝐀𝐃𝐀𝐃</h4>
+                    </div>
+                    <div class="command-item">
+                        <div class="command-main">
+                            <span class="command-name">/help</span>
+                        </div>
+                        <p class="command-desc">𝐒𝐀𝐀𝐑𝐄 𝐂𝐎𝐌𝐌𝐀𝐍𝐃𝐒 𝐊𝐈 𝐋𝐈𝐒𝐓 𝐃𝐄𝐊𝐇𝐄𝐈𝐍</p>
+                    </div>
+                </div>
 
-🔐 **𝐆𝐑𝐎𝐔𝐏 𝐒𝐄𝐂𝐔𝐑𝐈𝐓𝐘**:
-  /group on <name> ➡️ 𝐆𝐑𝐎𝐔𝐏 𝐊𝐀 𝐍𝐀𝐀𝐌 𝐋𝐎𝐂𝐊 𝐊𝐑𝐄.
-  /nickname on <name> ➡️ 𝐀𝐋𝐋 𝐍𝐈𝐂𝐊𝐍𝐀𝐌𝐄 𝐋𝐎𝐂𝐊.
-  
-💥 **𝐓𝐀𝐑𝐆𝐄𝐓 𝐒𝐘𝐒𝐓𝐄𝐌 (𝐀𝐃𝐌𝐈𝐍 𝐎𝐍𝐋𝐘)**:
-  /target on <mention> ➡️ 𝐊𝐈𝐒𝐈 𝐏𝐀𝐑 𝐁𝐇𝐈 𝐀𝐔𝐓𝐎-𝐀𝐓𝐓𝐀𝐂𝐊 𝐒𝐇𝐔𝐑𝐔 𝐊𝐀𝐑𝐄𝐈𝐍.
-  /target off ➡️ 𝐀𝐓𝐓𝐀𝐂𝐊 𝐊𝐎 𝐁𝐀𝐍𝐃 𝐊𝐀𝐑𝐄𝐈𝐍.
+                <!-- GROUP SECURITY -->
+                <div class="command-section">
+                    <div class="command-header">
+                        <span class="command-icon">🔐</span>
+                        <h4 class="command-title">𝐆𝐑𝐎𝐔𝐏 𝐒𝐄𝐂𝐔𝐑𝐈𝐓𝐘</h4>
+                    </div>
+                    <div class="command-item">
+                        <div class="command-main">
+                            <span class="command-name">/group on &lt;name&gt;</span>
+                        </div>
+                        <p class="command-desc">𝐆𝐑𝐎𝐔𝐏 𝐊𝐀 𝐍𝐀𝐀𝐌 𝐋𝐎𝐂𝐊 𝐊𝐑𝐄</p>
+                        <div class="command-usage">Usage: /group on MyGroup</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command-main">
+                            <span class="command-name">/nickname on &lt;name&gt;</span>
+                        </div>
+                        <p class="command-desc">𝐀𝐋𝐋 𝐍𝐈𝐂𝐊𝐍𝐀𝐌𝐄 𝐋𝐎𝐂𝐊</p>
+                        <div class="command-usage">Usage: /nickname on SpiderMan</div>
+                    </div>
+                </div>
 
-⚔️ **𝐅𝐈𝐆𝐇𝐓 𝐌𝐎𝐃𝐄 (𝐀𝐃𝐌𝐈𝐍 𝐎𝐍𝐋𝐘)**:
-  /fyt on ➡️ 𝐅𝐈𝐆𝐇𝐓 𝐌𝐎𝐃𝐄 𝐒𝐇𝐔𝐑𝐔 𝐊𝐀𝐑𝐄𝐈𝐍.
-  /stop ➡️ 𝐅𝐈𝐆𝐇𝐓 𝐌𝐎𝐃𝐄 𝐁𝐀𝐍𝐃 𝐊𝐀𝐑𝐄𝐈𝐍.
+                <!-- TARGET SYSTEM -->
+                <div class="command-section">
+                    <div class="command-header">
+                        <span class="command-icon">💥</span>
+                        <h4 class="command-title">𝐓𝐀𝐑𝐆𝐄𝐓 𝐒𝐘𝐒𝐓𝐄𝐌</h4>
+                    </div>
+                    <div class="command-item">
+                        <div class="command-main">
+                            <span class="command-name">/target on &lt;mention&gt;</span>
+                            <span class="command-badge">ADMIN ONLY</span>
+                        </div>
+                        <p class="command-desc">𝐊𝐈𝐒𝐈 𝐏𝐀𝐑 𝐁𝐇𝐈 𝐀𝐔𝐓𝐎-𝐀𝐓𝐓𝐀𝐂𝐊 𝐒𝐇𝐔𝐑𝐔 𝐊𝐀𝐑𝐄𝐈𝐍</p>
+                        <div class="command-usage">Usage: /target on @username</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command-main">
+                            <span class="command-name">/target off</span>
+                            <span class="command-badge">ADMIN ONLY</span>
+                        </div>
+                        <p class="command-desc">𝐀𝐓𝐓𝐀𝐂𝐊 𝐊𝐎 𝐁𝐀𝐍𝐃 𝐊𝐀𝐑𝐄𝐈𝐍</p>
+                    </div>
+                </div>
 
-🆔 **𝐈𝐃 𝐃𝐄𝐓𝐀𝐈𝐋𝐒**:
-  /tid ➡️ 𝐆𝐑𝐎𝐔𝐏 𝐈𝐃 𝐏𝐀𝐓𝐀 𝐊𝐀𝐑𝐄𝐈𝐍.
-  /uid <mention> ➡️ 𝐀𝐏𝐍𝐈 𝐘𝐀 𝐊𝐈𝐒𝐈 𝐀𝐔𝐑 𝐊𝐈 𝐈𝐃 𝐏𝐀𝐓𝐀 𝐊𝐀𝐑𝐄𝐈𝐍.
-</pre>
+                <!-- FIGHT MODE -->
+                <div class="command-section">
+                    <div class="command-header">
+                        <span class="command-icon">⚔️</span>
+                        <h4 class="command-title">𝐅𝐈𝐆𝐇𝐓 𝐌𝐎𝐃𝐄</h4>
+                    </div>
+                    <div class="command-item">
+                        <div class="command-main">
+                            <span class="command-name">/fyt on</span>
+                            <span class="command-badge">ADMIN ONLY</span>
+                        </div>
+                        <p class="command-desc">𝐅𝐈𝐆𝐇𝐓 𝐌𝐎𝐃𝐄 𝐒𝐇𝐔𝐑𝐔 𝐊𝐀𝐑𝐄𝐈𝐍</p>
+                    </div>
+                    <div class="command-item">
+                        <div class="command-main">
+                            <span class="command-name">/stop</span>
+                            <span class="command-badge">ADMIN ONLY</span>
+                        </div>
+                        <p class="command-desc">𝐅𝐈𝐆𝐇𝐓 𝐌𝐎𝐃𝐄 𝐁𝐀𝐍𝐃 𝐊𝐀𝐑𝐄𝐈𝐍</p>
+                    </div>
+                </div>
+
+                <!-- ID DETAILS -->
+                <div class="command-section">
+                    <div class="command-header">
+                        <span class="command-icon">🆔</span>
+                        <h4 class="command-title">𝐈𝐃 𝐃𝐄𝐓𝐀𝐈𝐋𝐒</h4>
+                    </div>
+                    <div class="command-item">
+                        <div class="command-main">
+                            <span class="command-name">/tid</span>
+                        </div>
+                        <p class="command-desc">𝐆𝐑𝐎𝐔𝐏 𝐈𝐃 𝐏𝐀𝐓𝐀 𝐊𝐀𝐑𝐄𝐈𝐍</p>
+                    </div>
+                    <div class="command-item">
+                        <div class="command-main">
+                            <span class="command-name">/uid &lt;mention&gt;</span>
+                        </div>
+                        <p class="command-desc">𝐀𝐏𝐍𝐈 𝐘𝐀 𝐊𝐈𝐒𝐈 𝐀𝐔𝐑 𝐊𝐈 𝐈𝐃 𝐏𝐀𝐓𝐀 𝐊𝐀𝐑𝐄𝐈𝐍</p>
+                        <div class="command-usage">Usage: /uid @username</div>
+                    </div>
+                </div>
+
             </div>
             <div class="contact-info">
                 <h3>😈𝐁𝐎𝐓 𝐀𝐃𝐌𝐈𝐍 𝐀𝐀𝐇𝐀𝐍 𝐇𝟑𝐑𝟑😈</h3>
